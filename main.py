@@ -53,8 +53,6 @@ sq_ft = st.number_input("Total Square Footage", min_value=100, step=50)
 buffer = st.slider("Material Buffer % (for overages)", 0, 30, 20)
 import streamlit as st
 
-st.title("AI Construction Bid Estimator")
-
 # Upload blueprint
 uploaded_file = st.file_uploader("Upload your blueprint (PDF, PNG, or JPG)", type=["pdf", "png", "jpg"])
 
