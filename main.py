@@ -1,10 +1,43 @@
-# AI Bidder Pro v3 - Streamlined Version Without User Storage or Payments
+# AI Bidder Pro v3 - Streamlined Version With Auto Material Detection from Summary
 import streamlit as st
 from datetime import datetime
 
 # --- Set App Page Config (MUST BE FIRST) ---
 st.set_page_config(page_title="AI Construction Bidder Pro", page_icon="🏗️", layout="centered")
 
+# --- Dark/Light Mode Toggle ---
+theme_mode = st.radio("Choose Theme:", ["Light", "Dark"], horizontal=True)
+
+if theme_mode == "Dark":
+    st.markdown("""
+        <style>
+            body {
+                background-color: #0b1d3a;
+                color: #ffffff;
+            }
+            .stButton>button {
+                background-color: #1f4f82;
+                color: white;
+                border-radius: 8px;
+                padding: 10px 24px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+else:
+    st.markdown("""
+        <style>
+            body {
+                background-color: #f7f7f7;
+                color: #000000;
+            }
+            .stButton>button {
+                background-color: #1f4f82;
+                color: white;
+                border-radius: 8px;
+                padding: 10px 24px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
 st.title("AI Construction Bidder Pro")
 
@@ -19,6 +52,25 @@ buffer = st.slider("Material Buffer % (for overages)", 0, 30, 20)
 # --- Project Summary ---
 st.subheader("🌐 Project Summary")
 project_summary = st.text_area("Project Summary", placeholder="e.g. Kitchen remodel: cabinets, appliances, flooring...")
+
+# --- AI Keyword Detection ---
+keywords = {
+    "kitchen": ["Cabinets", "Fixtures", "Flooring", "Lighting Fixtures", "Trim / Molding"],
+    "bathroom": ["Plumbing Fixtures", "Tile", "Paint", "Doors"],
+    "roof": ["Roofing"],
+    "garage": ["Concrete", "Doors", "Lumber"],
+    "remodel": ["Flooring", "Paint", "Trim / Molding"],
+    "foundation": ["Concrete"],
+    "insulation": ["Insulation"],
+    "windows": ["Windows"],
+    "doors": ["Doors"]
+}
+
+auto_detected_materials = set()
+summary_lower = project_summary.lower()
+for keyword, mats in keywords.items():
+    if keyword in summary_lower:
+        auto_detected_materials.update(mats)
 
 # --- Materials ---
 st.subheader("Materials AI Should Consider")
@@ -41,7 +93,8 @@ material_categories = {
 selected_materials = []
 for category, options in material_categories.items():
     with st.expander(category):
-        selected = st.multiselect(f"Select {category} materials:", options, key=category)
+        default_opts = [opt for opt in options if any(mat in category or mat in opt for mat in auto_detected_materials)]
+        selected = st.multiselect(f"Select {category} materials:", options, default=default_opts, key=category)
         selected_materials.extend(selected)
 
 # --- Blueprint Upload ---
