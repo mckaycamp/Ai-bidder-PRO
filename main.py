@@ -2,6 +2,9 @@
 import streamlit as st
 from datetime import datetime
 
+# --- Set App Page Config (MUST BE FIRST) ---
+st.set_page_config(page_title="AI Construction Bidder Pro", page_icon="🏗️", layout="centered")
+
 # --- Dark/Light Mode Toggle ---
 theme_mode = st.radio("Choose Theme:", ["Light", "Dark"], horizontal=True)
 
@@ -35,9 +38,6 @@ else:
             }
         </style>
     """, unsafe_allow_html=True)
-
-# --- Set App Page Config ---
-st.set_page_config(page_title="AI Construction Bidder Pro", page_icon="🏗️", layout="centered")
 
 st.title("AI Construction Bidder Pro")
 
@@ -113,14 +113,14 @@ if st.button("Generate Estimate"):
     total = material_cost + buffer_amt + labor_cost
 
     st.success(f"Estimated Total: ${total:,.2f}")
-    st.subheader("📦 Cost Breakdown")
+    st.subheader("🛆 Cost Breakdown")
     for item, cost in pricing.items():
         st.write(f"{item}: ${cost * sq_ft:,.2f} ({cost}/sq ft)")
     st.write(f"Material Buffer: ${buffer_amt:,.2f}")
     st.write(f"Labor: ${labor_cost:,.2f}")
 
     st.markdown("---")
-    st.subheader("🧐 AI-Powered Pricing Explanation")
+    st.subheader("🤔 AI-Powered Pricing Explanation")
     st.markdown(f"Estimate based on prices from {', '.join(sources)} in ZIP code {zip_code}.")
 
 st.markdown("---")
