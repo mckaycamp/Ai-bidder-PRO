@@ -1,8 +1,6 @@
-# AI Bidder Pro v3 - With User Data Storage, Theme Toggle, and Subscription Trial System
+# AI Bidder Pro v3 - Streamlined Version Without User Storage or Payments
 import streamlit as st
-from datetime import datetime, timedelta
-import json
-import os
+from datetime import datetime
 
 # --- Dark/Light Mode Toggle ---
 theme_mode = st.radio("Choose Theme:", ["Light", "Dark"], horizontal=True)
@@ -41,47 +39,7 @@ else:
 # --- Set App Page Config ---
 st.set_page_config(page_title="AI Construction Bidder Pro", page_icon="🏗️", layout="centered")
 
-# --- Trial System & Subscription Simulation ---
-USERS_FILE = "users.json"
-if not os.path.exists(USERS_FILE):
-    with open(USERS_FILE, "w") as f:
-        json.dump({}, f)
-
-with open(USERS_FILE, "r") as f:
-    users_data = json.load(f)
-
 st.title("AI Construction Bidder Pro")
-
-if "user" not in st.session_state:
-    st.subheader("🔐 Sign In to Access")
-    name = st.text_input("Name")
-    email = st.text_input("Email")
-    if st.button("Enter App"):
-        if name and email:
-            if email not in users_data:
-                users_data[email] = {
-                    "name": name,
-                    "start_date": str(datetime.now())
-                }
-                with open(USERS_FILE, "w") as f:
-                    json.dump(users_data, f)
-
-            st.session_state.user = {"name": name, "email": email}
-        else:
-            st.warning("Please enter both name and email.")
-    st.stop()
-
-user_email = st.session_state.user["email"]
-user_info = users_data.get(user_email, {})
-start_date = datetime.strptime(user_info.get("start_date"), "%Y-%m-%d %H:%M:%S.%f")
-trial_days_left = 7 - (datetime.now() - start_date).days
-
-if trial_days_left <= 0:
-    st.error("Your 7-day free trial has expired. Please subscribe to continue.")
-    st.markdown("[Subscribe Now](https://buy.stripe.com/test_cN27sW5r69HYdGo4gh) 💳")  # Replace with real Stripe/Venmo link
-    st.stop()
-else:
-    st.info(f"Your trial ends in {trial_days_left} day(s). Enjoy! 🎉")
 
 # --- Input Section ---
 st.subheader("📝 Project Details")
@@ -167,5 +125,3 @@ if st.button("Generate Estimate"):
 
 st.markdown("---")
 st.caption("Built with ❤️ by AI Construction Bidder Pro")
-
-
