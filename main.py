@@ -52,6 +52,47 @@ project_type = st.selectbox("Project Type", ["Kitchen Remodel", "Full Home Reno"
 sq_ft = st.number_input("Total Square Footage", min_value=100, step=50)
 buffer = st.slider("Material Buffer % (for overages)", 0, 30, 20)
 import streamlit as st
+import streamlit as st
+
+# --- Title and Description ---
+st.title("AI Construction Bid Estimator")
+st.write("Use this tool to get AI-generated estimates based on your project description and selected materials.")
+
+# --- Text Input for Project Summary ---
+project_summary = st.text_area(
+    "Project Summary",
+    placeholder="e.g. I am doing a kitchen remodel which will be tearing out and replacing all cabinets, appliances, and fixtures..."
+)
+
+# --- Select Materials to Include ---
+st.subheader("Materials AI Should Consider")
+material_options = [
+    "Lumber",
+    "Drywall / Sheetrock",
+    "Insulation",
+    "Roofing materials (tiles/shingles)",
+    "Concrete",
+    "Nails, screws, bolts",
+    "Cabinets",
+    "Fixtures (plumbing, lighting)",
+    "Flooring",
+    "Paint",
+    "Trim / Molding",
+    "Windows",
+    "Doors",
+    "Custom materials"
+]
+
+selected_materials = st.multiselect(
+    "Select all materials relevant to this project:",
+    material_options
+)
+
+# --- Display Summary for Confirmation ---
+if st.button("Confirm Project Inputs"):
+    st.success("Inputs captured. You can now run the estimate.")
+    st.write("**Project Summary:**", project_summary)
+    st.write("**Materials selected:**", ", ".join(selected_materials))
 
 # Upload blueprint
 uploaded_file = st.file_uploader("Upload your blueprint (PDF, PNG, or JPG)", type=["pdf", "png", "jpg"])
