@@ -51,6 +51,16 @@ zip_code = st.text_input("ZIP Code")
 project_type = st.selectbox("Project Type", ["Kitchen Remodel", "Full Home Reno", "Garage Build", "Roof Replacement", "Concrete Work", "Other"])
 sq_ft = st.number_input("Total Square Footage", min_value=100, step=50)
 buffer = st.slider("Material Buffer % (for overages)", 0, 30, 20)
+import streamlit as st
+
+st.title("AI Construction Bid Estimator")
+
+# Upload blueprint
+uploaded_file = st.file_uploader("Upload your blueprint (PDF, PNG, or JPG)", type=["pdf", "png", "jpg"])
+
+if uploaded_file is not None:
+    st.success(f"Uploaded: {uploaded_file.name}")
+    # You can add file processing logic here
 
 # Optional Labor Rate
 include_labor = st.checkbox("Include Custom Labor Rate?")
@@ -99,3 +109,6 @@ if st.button("Generate Estimate"):
 
     st.markdown("---")
     st.caption("Built with ❤️ by AI Construction Bidder Pro")
+import streamlit as st
+
+
