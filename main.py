@@ -5,39 +5,6 @@ from datetime import datetime
 # --- Set App Page Config (MUST BE FIRST) ---
 st.set_page_config(page_title="AI Construction Bidder Pro", page_icon="🏗️", layout="centered")
 
-# --- Dark/Light Mode Toggle ---
-theme_mode = st.radio("Choose Theme:", ["Light", "Dark"], horizontal=True)
-
-if theme_mode == "Dark":
-    st.markdown("""
-        <style>
-            body {
-                background-color: #0b1d3a;
-                color: #ffffff;
-            }
-            .stButton>button {
-                background-color: #1f4f82;
-                color: white;
-                border-radius: 8px;
-                padding: 10px 24px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-            body {
-                background-color: #f7f7f7;
-                color: #000000;
-            }
-            .stButton>button {
-                background-color: #1f4f82;
-                color: white;
-                border-radius: 8px;
-                padding: 10px 24px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
 
 st.title("AI Construction Bidder Pro")
 
